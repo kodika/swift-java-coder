@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.0
 
 import PackageDescription
 
@@ -11,11 +11,11 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/readdle/java_swift.git", .upToNextMinor(from: "2.1.5")),
-        .package(url: "https://github.com/readdle/swift-anycodable.git", .upToNextMinor(from: "1.0.2")),
+        .package(url: "https://github.com/kodika/java_swift.git", .branch("master")),
+        .package(url: "https://github.com/kodika/swift-anycodable.git", .branch("master")),
     ],
     targets: [
         .target(name: "JavaCoder", dependencies: ["java_swift", "AnyCodable"], path: "Sources"),
     ],
-    swiftLanguageVersions: [5, 4]
+    swiftLanguageVersions: [.v5]
 )

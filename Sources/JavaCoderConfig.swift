@@ -26,7 +26,7 @@ public struct JavaCoderConfig {
             closuresLock.unlock()
         }
         let typeName = String(describing: type)
-        NSLog("JavaCoderConfig register: \(typeName)")
+//        NSLog("JavaCoderConfig register: \(typeName)")
         codableClassNames[typeName] = javaClassname
         encodableClosures[typeName] = encodableClosure
         decodableClosures[typeName] = decodableClosure

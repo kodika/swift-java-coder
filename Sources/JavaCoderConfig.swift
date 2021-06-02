@@ -228,6 +228,22 @@ public struct JavaCoderConfig {
             }
             return Data(bytes: pointer, count: Int(length))
         })
+        
+        RegisterType(type: [UInt8].self, javaClassname: ByteArraySig, encodableClosure: { (intArray, _) -> jobject in
+            let valueData = (intArray as! [UInt8])
+            let byteArray = JNI.api.NewByteArray(JNI.env, jint(valueData.count))
+            valueData.withUnsafeBytes({ pointer in
+                guard let bytes = pointer.baseAddress?.assumingMemoryBound(to: Int8.self) else {
+                    fatalError()
+                }
+                JNI.api.SetByteArrayRegion(JNI.env, byteArray, 0, jint(valueData.count), bytes)
+            })
+            return byteArray!
+        }) { (byteArray, _) -> Decodable in
+            let pointer = JNI.api.GetByteArrayElements(JNI.env, byteArray, nil)!
+            let length = JNI.api.GetArrayLength(JNI.env, byteArray)
+            return [UInt8](Data(bytes: pointer, count: Int(length)))
+        }
     }
 
 }

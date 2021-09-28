@@ -475,6 +475,10 @@ fileprivate class JavaHashMapKeyedContainer<K : CodingKey> : KeyedEncodingContai
         
         let valueStorage = try self.encoder.box(value, codingPath: codingPath + [key])
         let result = JNI.CallObjectMethod(javaObject, methodID: HashMapPutMethod, args: [jvalue(l: keyStorage.javaObject), jvalue(l: valueStorage.javaObject)])
+
+        //Do not delete next line, as during runtime keyStorage is deinit before JVM uses the javaObject and crashes.
+        let _ = keyStorage
+        
         assert(result == nil, "Rewrite for key \(key.stringValue)")
     }
     

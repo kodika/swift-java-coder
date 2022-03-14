@@ -809,6 +809,9 @@ extension JavaEncoder {
                 let javaObject = try encodableClosure(anyCodableValue.value, codingPath)
                 storage = JNIStorageObject(type: .object(className: javaClassname), javaObject: javaObject)
             }
+            else if anyCodableValue.typeName == AnyCodable.NSNullTypeName {
+                storage = JNIStorageObject(type: .object(className: "")) //null has no className
+            }
             else {
                 let storageType: JNIStorageType
                 let fullClassName: String
